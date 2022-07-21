@@ -5,6 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
+
 import errorHandler from './middlewares/errorHandler.js';
 import foodItemsController from './controllers/fooditems.controller.js';
 import usersController from './controllers/users.controller.js';
@@ -25,6 +26,7 @@ app.use(helmet())
 app.use(foodItemsController)
     .use(usersController)
     .use(mealsController);
+
 
 app.use((req, res, next) => {
     const err = new Error("Not found")

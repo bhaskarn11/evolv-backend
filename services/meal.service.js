@@ -1,4 +1,3 @@
-import FoodItem from '../models/FoodItem.js';
 import Meal from '../models/Meal.js';
 
 export async function createMeal(data) {

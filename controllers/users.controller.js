@@ -1,20 +1,12 @@
 import express from 'express';
-import User from '../models/User.js';
+
+import { createUser, updateUserMealPlan } from '../services/users.service.js';
 
 const routes = express.Router();
 
 routes.post("/users", async (req, res, next) => {
     try {
-        const { name, calorieRequirement, mealPlans} = req.body;
-        if(!mealPlans) {
-            mealPlans = []
-        }
-        const user = await User.create({
-            name: name,
-            calorieRequirement: calorieRequirement,
-            mealPlans: mealPlans
-        })
-
+        const user = await createUser(req.body);
         res.send(user);
     } catch (error) {
         const err = new Error("Internal server error");
@@ -26,10 +18,8 @@ routes.patch("/users/:id/mealplan", async (req, res, next) => {
     try {
 
         const userId = req.params;
-        const mealId = req.body;
-        const user = await User.findByIdAndUpdate(id,{
-            ...req.body
-        })
+        const {mealId, mealPlan} = req.body;
+        const user = await updateUserMealPlan(userId, mealPlan)
 
         res.send(user);
     } catch (error) {
