@@ -1,16 +1,22 @@
-import express from 'express';
 import User from '../models/User.js';
 
-const routes = express.Router();
-
-routes.post("/users", async (req, res) => {
+export const createUser = async (data) => {
     try {
         const user = await User.create({
-            ...req.body
+            ...data
         })
 
-        res.send(user);
+        return user;
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" });
+        throw new Error(JSON.stringify(error));
     }
-})
+}
+
+
+export const updateUserMealPlan = async (data) => {
+    try {
+        
+    } catch (error) {
+        throw new Error(JSON.stringify(error));
+    }
+}

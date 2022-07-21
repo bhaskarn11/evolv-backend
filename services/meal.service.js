@@ -1,30 +1,30 @@
-import express from 'express';
+import FoodItem from '../models/FoodItem.js';
 import Meal from '../models/Meal.js';
 
-const routes = express.Router();
-
-routes.post("/fooditem", async (req, res) => {
+export async function createMeal(foodItemId, data) {
     try {
+        const fooditem = await FoodItem.findOne({id: foodItemId});
+        if (!fooditem) return null;
         const meal = await Meal.create({
-            ...req.body
+            ...data
         })
 
-        res.send(meal);
+        return meal;
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" });
+        throw new Error(JSON.stringify(error));
     }
-})
+}
 
-routes.patch("/fooditem/:id", async (req, res) => {
+export async function updateMeal(data) {
     try {
         const id = req.params.id
         const meal = await Meal.findByIdAndUpdate(id,
             {
-                ...req.body
+                ...data
             })
 
-        res.send(meal);
+        return meal;
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" });
+        throw new Error(JSON.stringify(error));
     }
-})
+}

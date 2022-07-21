@@ -1,14 +1,13 @@
 import mongoose from 'mongoose';
-const { Schema, model } = mongoose;
 
 
-const FoodItem = Schema({
+const FoodItem = mongoose.Schema({
     name: { type: String, required: true },
-    calories: Number,
+    calorie: Number,
     protein: Number,
     carb: Number,
     fat: Number,
     itemWeight: Number,
 })
 
-export default model(Meal, "fooditems");
+export default mongoose.model("fooditems", FoodItem);

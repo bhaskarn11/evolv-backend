@@ -1,9 +1,17 @@
 import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
+const MealPlan = {
+    date: Date,
+    meal: {
+        type: Schema.Types.ObjectId,
+        ref: "meals"
+    }
+}
 const User = mongoose.Schema({
     name: {type: String, required: true}, 
-    calorieRequirement: { type: String, required: true },
-    mealPlan: { type: Array }
+    calorieRequirement: { type: Number, required: true },
+    mealPlan: [MealPlan]
 })
 
-export default mongoose.model(User, "users");
+export default model("users", User);

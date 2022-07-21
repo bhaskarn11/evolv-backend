@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
-const MealType = {
-    Breakfast: "Breakfast", Lunch: "Lunch", Evening: "Evening", Snack: "Snack", Dinner: "Dinner"
-}
+// import FoodItem from './FoodItem.js'
+export const MealType = ["Breakfast", "Lunch", "Evening", "Snack", "Dinner"]
 
 const Meal = Schema({
     name: { type: String, required: true },
-    foodItems: { type: Array },
-    category: { type: String }
+    foodItems: [{type: Schema.Types.ObjectId, ref: "fooditems"}],
+    category: { type: String, enum: MealType }
 })
 
-export default model(Meal, "meals");
+export default model("meals", Meal);

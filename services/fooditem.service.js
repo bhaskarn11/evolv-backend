@@ -1,16 +1,13 @@
-import express from 'express';
 import FoodItem from '../models/FoodItem.js';
 
-const routes = express.Router();
-
-routes.post("/fooditem", async (req, res) => {
+export async function createFoodItem(data) {
     try {
         const fooditem = await FoodItem.create({
             ...req.body
         })
 
-        res.send(fooditem);
+        return fooditem;
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" });
+        throw new Error(JSON.stringify(error));
     }
-})
+}
