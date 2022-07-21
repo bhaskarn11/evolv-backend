@@ -5,10 +5,14 @@ const routes = express.Router();
 
 routes.post("/users", async (req, res, next) => {
     try {
-        const { name, calorieRequirement} = req.body;
+        const { name, calorieRequirement, mealPlans} = req.body;
+        if(!mealPlans) {
+            mealPlans = []
+        }
         const user = await User.create({
             name: name,
-            calorieRequirement: calorieRequirement
+            calorieRequirement: calorieRequirement,
+            mealPlans: mealPlans
         })
 
         res.send(user);

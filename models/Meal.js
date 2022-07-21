@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
-// import FoodItem from './FoodItem.js'
 export const MealType = ["Breakfast", "Lunch", "Evening", "Snack", "Dinner"]
 
 const Meal = Schema({

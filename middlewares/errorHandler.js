@@ -1,4 +1,4 @@
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res) {
     res.status(err.status || 500).send({
         error: {
             message: err.message,

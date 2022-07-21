@@ -1,13 +1,10 @@
 import express from 'express';
-import FoodItem from '../models/FoodItem.js';
+import { createFoodItem } from '../services/fooditem.service.js'
+const router = express.Router();
 
-const routes = express.Router();
-
-routes.post("/fooditem", async (req, res, next) => {
+router.post("/fooditem", async (req, res, next) => {
     try {
-        const fooditem = await FoodItem.create({
-            ...req.body
-        })
+        const fooditem = await createFoodItem(req.body)
 
         res.send(fooditem);
     } catch (error) {
@@ -16,4 +13,4 @@ routes.post("/fooditem", async (req, res, next) => {
     }
 })
 
-export default routes;
+export default router;
