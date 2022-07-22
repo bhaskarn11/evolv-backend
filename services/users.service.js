@@ -19,11 +19,19 @@ export const createUser = async (data) => {
 }
 
 
-export const updateUserMealPlan = async (id, mealPlan) => {
+export const updateUserMealPlan = (id, mealPlan) => {
     try {
-        const user = await User.findByIdAndUpdate(id, {
-            mealPlan: mealPlan
+        let user = null;
+        User.updateOne({id}, {
+            $push: { mealPlan: mealPlan}
+        }, (err, res) => {
+            if (err) {
+                throw err
+            }
+            // console.log(res);
+            user = res
         })
+        // console.log(m);
         return user
     } catch (error) {
         throw error;

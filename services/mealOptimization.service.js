@@ -3,41 +3,48 @@ import FoodItem from '../models/FoodItem.js'
 
 async function mealOptimization(mealCalorie) {
     try {
-        const foodList = await FoodItem.find({})
+        const foodList = await FoodItem.find({}) // fetches all fooditems from the datasource
         const recfoodList = []
-        foodList.forEach(element => {
+        let totalCal = 0;
+        for (const i in foodList) {
             let quantity = 0;
-            while (mealCalorie >= element.calories &&
-                checkConstraint(element.protein, mealCalorie, quantity)) {
-                if (quantity <= 5 && quantity >= 2) break
+            let calories = 0
+            let protein = 0
+            
+            do {
+                totalCal += foodList[i].calories;
+                calories += foodList[i].calories
+                protein += foodList[i].protein
                 quantity += 1
-
-            }
-            if (quantity !== 0 && recfoodList.length <= 5) {
-                const { protein, fat, name, carb, calories } = element
+            } while (totalCal < mealCalorie && checkConstraint(protein, calories, foodList[i].calories));
+            
+            if (totalCal > mealCalorie) break
+            
+            
+            if (quantity !== 0 && recfoodList.length < 5) {
+                
+                const { name } = foodList[i]
                 recfoodList.push({
                     protein,
-                    fat,
+                    fat: foodList[i].fat * quantity,
                     name,
-                    carb,
+                    carb: foodList[i].carb * quantity,
                     calories,
                     quantity: quantity
                 })
             }
-        });
-        
+        };
+
         return recfoodList
     } catch (error) {
         throw error
     }
 }
 
-const checkConstraint = (protein, mealCalorie, quantity) => {
+const checkConstraint = (protein, calories, itemCal) => {
     let proteinEq = protein * 4
-    if (quantity > 0) {
-        proteinEq = protein * 4 * quantity 
-    }
-    if (proteinEq <= (mealCalorie * 0.3) && proteinEq >= (mealCalorie * 0.2)) return true
+    let calDiff = calories - itemCal
+    if ((calDiff >= -100 && calDiff <= 100) && (proteinEq <= (calories * 0.3) && proteinEq >= (calories * 0.2))) return true
     return false
 }
 

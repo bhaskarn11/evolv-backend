@@ -8,10 +8,11 @@ const MealPlan = {
         ref: "meals"
     }
 }
+
 const User = mongoose.Schema({
     name: {type: String, required: true}, 
     calorieRequirement: { type: Number, required: true },
-    mealPlan: [MealPlan]
+    mealPlan: [{type: MealPlan}]
 })
 
 export default model("users", User);
