@@ -1,8 +1,23 @@
 import express from 'express';
-// import { validationResult, check } from 'express-validator'
 
 import { createFoodItem } from '../services/fooditem.service.js'
 const router = express.Router();
+
+
+/*
+    add a food item 
+
+    example request payoad: 
+
+    {
+        "name": "Oranges",
+        "calories": 35,
+        "protein": 1,
+        "fat": 0,
+        "carb": 9,
+        "acceptedUnits": ["g"]
+    }
+*/
 
 router.post("/fooditem",
     async (req, res, next) => {

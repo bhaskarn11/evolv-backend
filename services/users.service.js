@@ -23,7 +23,7 @@ export const updateUserMealPlan = (id, mealPlan) => {
     try {
         let user = null;
         User.updateOne({id}, {
-            $push: { mealPlan: mealPlan}
+            $addToSet: { mealPlan: mealPlan}
         }, (err, res) => {
             if (err) {
                 throw err

@@ -14,12 +14,11 @@ export async function createMeal(data) {
 
 export async function updateMeal(id, data) {
     try {
-        const meal = await Meal.findByIdAndUpdate(id,
+        const doc = await Meal.findOneAndUpdate({id},
             {
                 ...data
             })
-
-        return meal;
+        return doc;
     } catch (error) {
         throw error;
     }

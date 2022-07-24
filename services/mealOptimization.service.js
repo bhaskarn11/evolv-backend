@@ -2,6 +2,7 @@ import FoodItem from '../models/FoodItem.js'
 
 
 async function mealOptimization(mealCalorie) {
+    const quantityChange = 1  // values can be any (e.g 0.25, 0.5 etc. ) multiples of 0.25 
     try {
         const foodList = await FoodItem.find({}) // fetches all fooditems from the datasource
         const recfoodList = []
@@ -10,19 +11,19 @@ async function mealOptimization(mealCalorie) {
             let quantity = 0;
             let calories = 0
             let protein = 0
-            
+
             do {
                 totalCal += foodList[i].calories;
                 calories += foodList[i].calories
                 protein += foodList[i].protein
-                quantity += 1
+                quantity += quantityChange
             } while (totalCal < mealCalorie && checkConstraint(protein, calories, foodList[i].calories));
-            
+
             if (totalCal > mealCalorie) break
-            
-            
+
+
             if (quantity !== 0 && recfoodList.length < 5) {
-                
+
                 const { name } = foodList[i]
                 recfoodList.push({
                     protein,
@@ -44,7 +45,8 @@ async function mealOptimization(mealCalorie) {
 const checkConstraint = (protein, calories, itemCal) => {
     let proteinEq = protein * 4
     let calDiff = calories - itemCal
-    if ((calDiff >= -100 && calDiff <= 100) && (proteinEq <= (calories * 0.3) && proteinEq >= (calories * 0.2))) return true
+    if ((calDiff >= -100 && calDiff <= 100) &&
+        (proteinEq <= (calories * 0.3) && proteinEq >= (calories * 0.2))) return true
     return false
 }
 
